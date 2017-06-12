@@ -8,7 +8,7 @@ trait Printable[A] {
   def format(value: A): String
 }
 
-object PritableInstances {
+object PrintableInstances {
 
   implicit val str = new Printable[String] {
     override def format(value: String): String = value
@@ -16,6 +16,16 @@ object PritableInstances {
 
   implicit val int = new Printable[Int] {
     override def format(value: Int): String = value.toString
+  }
+
+}
+
+object PrintableSyntax {
+
+  implicit class PrintOps[A](value: A) {
+    def format(implicit p: Printable[A]): String = p.format(value)
+
+    def print(implicit p: Printable[A]): Unit = println(format(p))
   }
 
 }
